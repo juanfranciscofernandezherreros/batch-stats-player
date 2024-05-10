@@ -9,5 +9,7 @@ public class FixturesBean {
     private String eventTime;
     private String homeTeam;
     private String awayTeam;
-
+    private String dateFile;
+    private String country;
+    private String competition;
 }
