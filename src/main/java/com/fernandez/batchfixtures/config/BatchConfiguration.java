@@ -1,8 +1,8 @@
-package com.fernandez.batchtest.config;
+package com.fernandez.batchfixtures.config;
 
-import com.fernandez.batchtest.model.dto.ResultsBean;
-import com.fernandez.batchtest.model.entity.Results;
-import com.fernandez.batchtest.writer.ConsoleItemWriter;
+import com.fernandez.batchfixtures.model.dto.FixturesBean;
+import com.fernandez.batchfixtures.model.entity.Fixtures;
+import com.fernandez.batchfixtures.writer.ConsoleItemWriter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -13,14 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import com.fernandez.batchtest.decorator.ThreadLoggingTaskDecorator;
-import com.fernandez.batchtest.job.MyJobListener;
-import com.fernandez.batchtest.processor.CsvItemProcessor;
-import com.fernandez.batchtest.reader.CsvItemReader;
+import com.fernandez.batchfixtures.decorator.ThreadLoggingTaskDecorator;
+import com.fernandez.batchfixtures.job.MyJobListener;
+import com.fernandez.batchfixtures.processor.CsvItemProcessor;
+import com.fernandez.batchfixtures.reader.CsvItemReader;
 
 @Configuration
 @EnableBatchProcessing
@@ -58,7 +57,7 @@ public class BatchConfiguration {
 
     @Bean
     public Job myJob() {
-        return jobBuilderFactory.get("myJob")
+        return jobBuilderFactory.get("myJobFixtures")
                 .incrementer(new RunIdIncrementer())
                 .listener(myJobListener)
                 .start(myStep())
@@ -67,8 +66,8 @@ public class BatchConfiguration {
 
     @Bean
     public Step myStep() {
-        return stepBuilderFactory.get("myStep")
-                .<ResultsBean, Results>chunk(chunk)
+        return stepBuilderFactory.get("myStepFixtures")
+                .<FixturesBean, Fixtures>chunk(chunk)
                 .reader(csvItemReader)
                 .processor(csvItemProcessor)
                 .writer(consoleItemWriter)
@@ -82,7 +81,7 @@ public class BatchConfiguration {
         taskExecutor.setCorePoolSize(corePoolSize);
         taskExecutor.setMaxPoolSize(maxPoolSize);
         taskExecutor.setQueueCapacity(queueCapacity);
-        taskExecutor.setThreadNamePrefix("my-batch-thread-");
+        taskExecutor.setThreadNamePrefix("my-batch-fixtures-thread-");
         taskExecutor.setTaskDecorator(new ThreadLoggingTaskDecorator());
         return taskExecutor;
     }

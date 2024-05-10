@@ -1,4 +1,4 @@
-package com.fernandez.batchtest.tasklet;
+package com.fernandez.batchfixtures.tasklet;
 
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;

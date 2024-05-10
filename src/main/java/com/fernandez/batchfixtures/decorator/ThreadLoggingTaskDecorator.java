@@ -1,4 +1,4 @@
-package com.fernandez.batchtest.decorator;
+package com.fernandez.batchfixtures.decorator;
 
 import org.springframework.core.task.TaskDecorator;
 

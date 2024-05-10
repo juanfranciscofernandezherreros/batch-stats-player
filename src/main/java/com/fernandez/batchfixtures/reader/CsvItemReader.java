@@ -1,6 +1,6 @@
-package com.fernandez.batchtest.reader;
+package com.fernandez.batchfixtures.reader;
 
-import com.fernandez.batchtest.model.dto.ResultsBean;
+import com.fernandez.batchfixtures.model.dto.FixturesBean;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.LineMapper;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
@@ -12,10 +12,10 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CsvItemReader extends FlatFileItemReader<ResultsBean> {
+public class CsvItemReader extends FlatFileItemReader<FixturesBean> {
 	
     private String filePath;
-	
+
 	 @Autowired
 	    public CsvItemReader(@Value("${file}") String filePath) {
 	        this.filePath = filePath;
@@ -24,15 +24,13 @@ public class CsvItemReader extends FlatFileItemReader<ResultsBean> {
 		    setLinesToSkip(1); // Skip the first line
 	    }
 
-    private LineMapper<ResultsBean> createLineMapper() {
+    private LineMapper<FixturesBean> createLineMapper() {
         DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
-        tokenizer.setNames("matchId", "eventTime", "homeTeam", "awayTeam", "homeScore", "awayScore",
-                "homeScore1", "homeScore2", "homeScore3", "homeScore4", "homeScore5",
-                "awayScore1", "awayScore2", "awayScore3", "awayScore4", "awayScore5");
+        tokenizer.setNames("matchId", "eventTime", "homeTeam", "awayTeam");
         tokenizer.setDelimiter(",");
-        BeanWrapperFieldSetMapper<ResultsBean> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
-        fieldSetMapper.setTargetType(ResultsBean.class);
-        DefaultLineMapper<ResultsBean> lineMapper = new DefaultLineMapper<>();
+        BeanWrapperFieldSetMapper<FixturesBean> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
+        fieldSetMapper.setTargetType(FixturesBean.class);
+        DefaultLineMapper<FixturesBean> lineMapper = new DefaultLineMapper<>();
         lineMapper.setLineTokenizer(tokenizer);
         lineMapper.setFieldSetMapper(fieldSetMapper);
         return lineMapper;
