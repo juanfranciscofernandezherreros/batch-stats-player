@@ -1,4 +1,4 @@
-package com.fernandez.batchfixtures.decorator;
+package com.fernandez.batchstatsplayer.decorator;
 
 import org.springframework.core.task.TaskDecorator;
 

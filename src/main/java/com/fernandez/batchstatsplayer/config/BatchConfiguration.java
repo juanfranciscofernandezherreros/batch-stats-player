@@ -1,8 +1,8 @@
-package com.fernandez.batchfixtures.config;
+package com.fernandez.batchstatsplayer.config;
 
-import com.fernandez.batchfixtures.model.dto.FixturesBean;
-import com.fernandez.batchfixtures.model.entity.Fixtures;
-import com.fernandez.batchfixtures.writer.ConsoleItemWriter;
+import com.fernandez.batchstatsplayer.model.dto.StatsPlayerBean;
+import com.fernandez.batchstatsplayer.model.entity.StatsPlayer;
+import com.fernandez.batchstatsplayer.writer.ConsoleItemWriter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -16,10 +16,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import com.fernandez.batchfixtures.decorator.ThreadLoggingTaskDecorator;
-import com.fernandez.batchfixtures.job.MyJobListener;
-import com.fernandez.batchfixtures.processor.CsvItemProcessor;
-import com.fernandez.batchfixtures.reader.CsvItemReader;
+import com.fernandez.batchstatsplayer.decorator.ThreadLoggingTaskDecorator;
+import com.fernandez.batchstatsplayer.job.MyJobListener;
+import com.fernandez.batchstatsplayer.processor.CsvItemProcessor;
+import com.fernandez.batchstatsplayer.reader.CsvItemReader;
 
 @Configuration
 @EnableBatchProcessing
@@ -57,7 +57,7 @@ public class BatchConfiguration {
 
     @Bean
     public Job myJob() {
-        return jobBuilderFactory.get("myJobFixtures")
+        return jobBuilderFactory.get("myJobStatsPlayer")
                 .incrementer(new RunIdIncrementer())
                 .listener(myJobListener)
                 .start(myStep())
@@ -66,8 +66,8 @@ public class BatchConfiguration {
 
     @Bean
     public Step myStep() {
-        return stepBuilderFactory.get("myStepFixtures")
-                .<FixturesBean, Fixtures>chunk(chunk)
+        return stepBuilderFactory.get("myStepStatsPlayer")
+                .<StatsPlayerBean, StatsPlayer>chunk(chunk)
                 .reader(csvItemReader)
                 .processor(csvItemProcessor)
                 .writer(consoleItemWriter)
@@ -81,7 +81,7 @@ public class BatchConfiguration {
         taskExecutor.setCorePoolSize(corePoolSize);
         taskExecutor.setMaxPoolSize(maxPoolSize);
         taskExecutor.setQueueCapacity(queueCapacity);
-        taskExecutor.setThreadNamePrefix("my-batch-fixtures-thread-");
+        taskExecutor.setThreadNamePrefix("my-batch-statsplayer-thread-");
         taskExecutor.setTaskDecorator(new ThreadLoggingTaskDecorator());
         return taskExecutor;
     }

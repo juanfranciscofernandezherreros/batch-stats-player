@@ -1,13 +1,13 @@
-package com.fernandez.batchfixtures;
+package com.fernandez.batchstatsplayer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FixturesApplication {
+public class StatsPlayerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FixturesApplication.class, args);
+        SpringApplication.run(StatsPlayerApplication.class, args);
     }
 
 }
